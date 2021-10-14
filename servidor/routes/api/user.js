@@ -28,10 +28,10 @@ router.get("/:username", async (req, res) => {
   try {
 
     let user;
-    user = await User.findOne({username : req.params.username}); // buscamos por slug
+    user = await User.findOne({username : req.params.username}); // buscamos por username
 
     if(user){
-      res.json(user.username);
+      res.json(user);
     }else{
       res.status(500).send("No existe el usuario!!");
     }
@@ -82,6 +82,35 @@ router.delete("/:id", async (req, res) => {
 
  });
 
+
+  // PUT -> Actualizamos user, lo buscamos por id, y si existe, se actualiza 
+
+  router.put("/:id", async (req, res) => {
+
+    try {
+      const {username,email,hash,image,points} = req.body;
+      let user = await User.findById(req.params.id);
+  
+      if(!user) {
+          res.status(404).json({ msg: 'No existe el user'})
+      }
+  
+      user.username = username;
+      user.email = email;
+       user.hash = hash;
+       user.image = image;
+       user.points = points;
+  
+  
+      user = await User.findOneAndUpdate({ _id:req.params.id},user, { new:true })
+      res.json(user)
+      
+  } catch (error) {
+      console.log(error);
+      res.status(500).send('Hubo un error');
+  }
+  
+  });
 
 
 
