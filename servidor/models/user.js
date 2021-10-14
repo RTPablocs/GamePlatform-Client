@@ -25,6 +25,9 @@ const UserSchema =  mongoose.Schema({
     },
     image:{
         type:String
+    },
+    points:{
+      type:Number
     }
      
     

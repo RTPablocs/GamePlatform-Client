@@ -1,0 +1,16 @@
+Estructura BBDDD 
+///////////////
+
+Insert BBDDD
+///////////////////////
+
+db.users.insert({"username":"matiki","email":"matiki@gmail.com","hash":"ola1123","image":"matiki.jpg","points":"30000"})
+
+db.users.insert({"username":"player2","email":"player2@gmail.com","hash":"player2pass","image":"player2.jpg","points":"15000"})
+
+db.users.insert({"username":"player3","email":"player3@gmail.com","hash":"player3pass","image":"player3.jpg","points":"19800"})
+
+db.users.insert({"username":"player4","email":"player4@gmail.com","hash":"player4pass","image":"player4.jpg","points":"20000"})
+
+
+
