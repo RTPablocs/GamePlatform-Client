@@ -2,6 +2,7 @@
 const express = require('express');
 const conectarDB = require('./config/db');
 const cors = require("cors");
+const passport = require('passport');
 
 // ruuting modulos
 const userRounting = require('./routes/api/user')
@@ -14,6 +15,9 @@ var app = express();
 // Conectamos a BBDD
 conectarDB();
 
+//Passport
+require('./models/user');
+require('./config/passport');
 
 // Configuramos el puerto
 const port = process.env.PORT || 4000

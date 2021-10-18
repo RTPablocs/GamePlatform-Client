@@ -1,117 +1,88 @@
-var router = require('express').Router();
 var mongoose = require('mongoose');
-
-// Modelo de user
+var router = require('express').Router();
+var passport = require("passport");
 const User = require("../../models/user");
+var auth = require('../auth');
 
 
-// GET -> Seleccionar todos los productos
+//Obtener la informacion de un usuario
 
-router.get("/", async (req, res) => {
+router.get('/user', auth.required, function(req, res, next){
+  User.findById(req.payload.id).then(function(user){
+    if(!user){ return res.sendStatus(401); }
 
-    try {
-      const user = await User.find();
-      console.log(res);
-      res.json(user);
-    } catch (error) {
-      console.log(error);
-      res.status(500).send("Error en el GET de user!!");
-    }
+    return res.json({user: user.toAuthJSON()});
+  }).catch(next);
 });
 
+//Actualizar datos user
 
+router.put('/user', auth.required, function(req, res, next){
+  User.findById(req.payload.id).then(function(user){
+    if(!user){ return res.sendStatus(401); }
 
-// GET ONE -> Seleccionamos solo un user 
+    // only update fields that were actually passed...
+    if(typeof req.body.user.username !== 'undefined'){
+      user.username = req.body.user.username;
+    }
+    if(typeof req.body.user.email !== 'undefined'){
+      user.email = req.body.user.email;
+    }
+  
+    if(typeof req.body.user.image !== 'undefined'){
+      user.image = req.body.user.image;
+    }
+    if(typeof req.body.user.password !== 'undefined'){
+      user.setPassword(req.body.user.password);
+    }
+    if(typeof req.body.user.points !== 'undefined'){
+      user.points = req.body.user.points;
+    }
 
-router.get("/:username", async (req, res) => {
+    return user.save().then(function(){
+      return res.json({user: user.toAuthJSON()});
+    });
+  }).catch(next);
+});
 
-  try {
+// Para login, le pasamos email y password, devuelve -> email,username y token.
 
-    let user;
-    user = await User.findOne({username : req.params.username}); // buscamos por username
+router.post('/login', function(req, res, next){
+  if(!req.body.user.email){
+    return res.status(422).json({errors: {email: "can't be blank"}});
+  }
+
+  if(!req.body.user.password){
+    return res.status(422).json({errors: {password: "can't be blank"}});
+  }
+
+  passport.authenticate('local', {session: false}, function(err, user, info){
+    if(err){ return next(err); }
 
     if(user){
-      res.json(user);
-    }else{
-      res.status(500).send("No existe el usuario!!");
+      user.token = user.generateJWT();
+      return res.json({user: user.toAuthJSON()});
+    } else {
+      return res.status(422).json(info);
     }
-  
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Error en el GET de user!!");
-  }
+  })(req, res, next);
 });
 
-//POST -> Crear nuevo user
 
-router.post("/", async (req, res) => {
+// Registro de nuevo usuario
 
-  try {
-      let user;
+router.post('/register', function(req, res, next){
+  var user = new User();
 
-      user = new User(req.body);
-      await user.save();
-      res.send(user);
-      
-  } catch (error) {
-      console.log(error);
-      res.status(500).send('Error en crear nuevo user!!');
-  }
+  user.username = req.body.user.username;
+  user.email = req.body.user.email;
+  user.image = req.body.user.image;
+  user.points = req.body.user.points;
+  user.setPassword(req.body.user.password);
+
+  user.save().then(function(){
+    return res.json({user: user.toAuthJSON()});
+  }).catch(next);
 });
 
-// DELTE -> Borramos user, lo buscamos por id y si existe, lo borramos
-
-router.delete("/:id", async (req, res) => {
-
-    try {
-      let user = await User.findById(req.params.id);
-
-      if(!user) {
-          res.status(404).json({ msg: 'No existe el user'})
-      }else{
-
-        await User.findOneAndRemove({ _id:req.params.id})
-
-        res.json({ msg: 'User eliminado con éxito!' })
-      }
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Error al borrar el user');
-    }
-
- });
-
-
-  // PUT -> Actualizamos user, lo buscamos por id, y si existe, se actualiza 
-
-  router.put("/:id", async (req, res) => {
-
-    try {
-      const {username,email,hash,image,points} = req.body;
-      let user = await User.findById(req.params.id);
-  
-      if(!user) {
-          res.status(404).json({ msg: 'No existe el user'})
-      }
-  
-      user.username = username;
-      user.email = email;
-       user.hash = hash;
-       user.image = image;
-       user.points = points;
-  
-  
-      user = await User.findOneAndUpdate({ _id:req.params.id},user, { new:true })
-      res.json(user)
-      
-  } catch (error) {
-      console.log(error);
-      res.status(500).send('Hubo un error');
-  }
-  
-  });
-
-
-
-  module.exports = router;
+module.exports = router;

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 var uniqueValidator = require("mongoose-unique-validator");
-
+var crypto = require("crypto");
 var jwt = require('jsonwebtoken'); // -> npm install jsonwebtoken
-
+var secret = require("../config").secret;
 
 
 const UserSchema =  mongoose.Schema({
@@ -10,19 +10,15 @@ const UserSchema =  mongoose.Schema({
     username:{
         type: String, 
         lowercase: true, 
-        unique: true, 
-        match: [/^[a-zA-Z0-9]+$/, 'is invalid']
+        unique: true
     },
     email:{
         type:String,
         required:true,
         match: [/\S+@\S+\.\S+/, 'is invalid']
     },
-    hash:{
-        type:String,
-        required:true
-   
-    },
+    hash:String,
+    salt:String,
     image:{
         type:String
     },
@@ -30,10 +26,9 @@ const UserSchema =  mongoose.Schema({
       type:Number
     }
      
-    
 
-
-});
+},
+{timestamps:true});
 
 
 // Nos valida el esquema
@@ -41,11 +36,16 @@ const UserSchema =  mongoose.Schema({
 UserSchema.plugin(uniqueValidator, {message: 'no se cumple el esquema!'}); // instalar -> npm install --save mongoose-unique-validator
 
 
-UserSchema.methods.validPassword = function(password) {
-    var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
-    return this.hash === hash;
-  };
 
+UserSchema.methods.validPassword = function(password) {
+  var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+  return this.hash === hash;
+};
+
+UserSchema.methods.setPassword = function(password){
+  this.salt = crypto.randomBytes(16).toString('hex');
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+};
 
 UserSchema.methods.generateJWT = function() {
     var today = new Date();
@@ -65,7 +65,8 @@ UserSchema.methods.toAuthJSON = function(){
       username: this.username,
       email: this.email,
       token: this.generateJWT(),
-      image: this.image
+      image: this.image,
+      points: this.points
     };
   };
 
