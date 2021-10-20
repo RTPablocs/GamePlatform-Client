@@ -1,1 +1,3 @@
-# Client_Project
+# Projecte Client
+
+<<Descripció del projecte>>
