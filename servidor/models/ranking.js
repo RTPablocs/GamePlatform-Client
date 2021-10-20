@@ -1,26 +1,16 @@
 const  mongoose  = require("mongoose");
 const User = mongoose.model('User');
-const infoScore = mongoose.Schema({
-    user:{type: mongoose.Schema.Types.ObjectId , ref:'User'},
-    myScore:{type:Number},
-    wins:{type:Number},
-    lose:{type:Number}
-})
 const typeScore = mongoose.Schema({
+    id:{type:String},
     nameGame:{type:String},
-    score:{type:String},
-    wins:{type:Number},
-    lose:{type:Number}
+    datePlay:{type:String},
+    score:{type:String}
 })
 const singleScore = mongoose.Schema({
     user:{type: mongoose.Schema.Types.ObjectId , ref:'User'},
-    game:[typeScore],
-    totalSore:{type:String},
-    totalWins:{type:String},
-    totalLose:{type:String}
+    game:[typeScore]
 })
 const RankingSchema = mongoose.Schema({
-    score:[infoScore],
     singleScore:[singleScore]
 
 });
