@@ -64,10 +64,21 @@ UserSchema.methods.toAuthJSON = function(){
     return {
       username: this.username,
       email: this.email,
-      token: this.generateJWT(),
-      image: this.image,
-      points: this.points
+      token: this.generateJWT()
     };
   };
+
+
+/* Para mostrar perfil */
+
+UserSchema.methods.toProfileJSON = function(){
+  return {
+    username: this.username,
+    email: this.email,
+    token: this.generateJWT(),
+    points : this.points,
+    image: this.image
+  };
+};
 
 module.exports = mongoose.model('User', UserSchema);

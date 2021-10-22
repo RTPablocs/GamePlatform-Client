@@ -1,5 +1,6 @@
 const  mongoose  = require("mongoose");
 const User = mongoose.model('User');
+var uniqueValidator = require("mongoose-unique-validator");
 const typeScore = mongoose.Schema({
     id:{type:String},
     nameGame:{type:String},
