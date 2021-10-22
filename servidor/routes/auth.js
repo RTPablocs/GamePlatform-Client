@@ -15,7 +15,8 @@ var auth = {
     secret: secret,
     algorithms: ["HS256"],
     userProperty: 'payload',
-    getToken: getTokenFromHeader
+    getToken: getTokenFromHeader,
+    maxAge: 60 * 60 
   }),
   optional: jwt({
     secret: secret,

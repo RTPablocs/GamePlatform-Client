@@ -34,3 +34,5 @@ router.get('/:id',async(req,res)=>{
         console.log(e)
     }
 });
+
+module.exports = router;
