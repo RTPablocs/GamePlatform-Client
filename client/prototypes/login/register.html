@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="register.js"></script> 
+    <link rel="stylesheet" href="login.css">
+
+
+</head>
+<body>  
+    <div id="contenedor">
+        <div id="central">
+            <div id="login">
+                <div class="titulo">
+                    Register
+                </div>
+                <form id="form" type="submit">
+
+                    <input id="username" type="text" name="username" placeholder="username" required>
+                    <span class="error ocultar" id="e_user">Username inválido o ya en uso</span><br>
+
+                    <input id="email" type="text" name="email" placeholder="usuario@gmail.com" required>
+                    <span class="error ocultar" id="e_email">Email inválido o ya en uso</span><br>
+
+                    <input  id="password" type="password" placeholder="Contraseña" name="password" required>
+                    <span class="error ocultar" id="e_password">Formtato de la contraseña incorrecto</span><br>
+                    
+                    <button   type="submit" title="Ingresar" name="Ingresar" onclick="submit_form()">Enviar</button>
+                </form>
+                <div class="pie-form">
+                    <a href="login.html">>Inicia sesión</a>           
+                </div>
+            </div>
+          
+        </div>
+    </div>
+
+</body>
+</html>

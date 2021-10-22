@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script rel="stylesheet"src="login.js"></script> 
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>  
+    <div id="contenedor">
+        <div id="central">
+            <div id="login">
+                <div class="titulo">
+                    Login
+                </div>
+                <form id="form" type="submit">
+
+                    <input id="email" type="text" name="email" placeholder="usuario@gmail.com" required>
+                    <span class="error">Email inválido</span>
+                    
+                    <input  id="password" type="password" placeholder="Contraseña" name="password" required>
+                    <span class="error">Contraseña incorrecta</span>
+
+                    <button   type="submit" title="Ingresar" name="Ingresar" onclick="submit_form()">Enviar</button>
+                </form>
+                <div class="pie-form">
+                    <a href="register.html">>¿No tienes Cuenta? Registrate</a>           
+                </div>
+            </div>
+          
+        </div>
+    </div>
+
+</body>
+</html>
