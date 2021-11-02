@@ -60,6 +60,8 @@ UserSchema.methods.generateJWT = function() {
   };
 
 
+/* JsonFor para datos login */
+
 UserSchema.methods.toAuthJSON = function(){
     return {
       username: this.username,

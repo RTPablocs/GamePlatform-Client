@@ -2,33 +2,95 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <script rel="stylesheet"src="login.js"></script> 
-    <link rel="stylesheet" href="login.css">
+    <script src="utils_login.js"></script> 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
 </head>
 <body>  
+
+    <!-- Barra navegador -->
+
+   <nav class="topnav">
+
+        <a class="navbar-logo" href="#home">
+            <img src="https://w1.pngwing.com/pngs/844/690/png-transparent-crocodile-joystick-video-games-gamepad-game-controllers-video-game-consoles-logo-yellow.png" >
+        </a>
+        <a class="active" href="#home">Home</a>
+        <a href="#games">Games</a>
+        <a href="#games">Ranking</a>
+        <a href="#games">Iniciar Sesión<i class="far fa-user"></i></a>
+
+   </nav>
+
+
+   <!-- Formulario login -->
+
     <div id="contenedor">
+
         <div id="central">
+
             <div id="login">
+
                 <div class="titulo">
                     Login
                 </div>
+
                 <form id="form" type="submit">
 
                     <input id="email" type="text" name="email" placeholder="usuario@gmail.com" required>
-                    <span class="error">Email inválido</span>
+                    <span class="error ocultar" id="e_email">Email inválido</span>
                     
                     <input  id="password" type="password" placeholder="Contraseña" name="password" required>
-                    <span class="error">Contraseña incorrecta</span>
+                    <span class="error ocultar"id="e_password">Contraseña incorrecta</span>
 
-                    <button   type="submit" title="Ingresar" name="Ingresar" onclick="submit_form()">Enviar</button>
+                    <button   type="submit" title="Ingresar" name="Ingresar" onclick="submit_form_login()">Enviar</button>
                 </form>
+                
                 <div class="pie-form">
                     <a href="register.html">>¿No tienes Cuenta? Registrate</a>           
                 </div>
+
             </div>
           
         </div>
+
+
+     <!-- Carousel -->
+
+        <div id="central2">
+
+            <h1>Registrate para poder jugar nuestros juegos!</h1><br>
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+           
+                    <img src="img/images.jpeg" >
+            
+            </div>
+            
+            <div class="mySlides fade">
+           
+                    <img src="img/space.webp" >
+             
+            </div>
+            
+            <div class="mySlides fade">
+      
+                    <img src="img/2048.png" >
+               
+            </div>
+
+            <div class="mySlides fade">
+            
+                <img src="img/simon.jpeg" >
+           
+        </div>
+
+
+
+
     </div>
 
 </body>
+
 </html>
