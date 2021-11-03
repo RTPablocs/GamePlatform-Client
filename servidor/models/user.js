@@ -23,7 +23,8 @@ const UserSchema =  mongoose.Schema({
         type:String
     },
     points:{
-      type:Number
+      type:Number,
+      default: 0
     }
      
 
@@ -78,6 +79,13 @@ UserSchema.methods.toProfileJSON = function(){
     token: this.generateJWT(),
     points : this.points,
     image: this.image
+  };
+};
+
+UserSchema.methods.toNewPoitnsJSON = function(){
+  return {
+    username: this.username,
+    points : this.points
   };
 };
 

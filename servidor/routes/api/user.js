@@ -9,9 +9,17 @@ var auth = require('../auth');
 
 router.get('/user', auth.required, function(req, res, next){
   User.findById(req.payload.id).then(function(user){
+
     if(!user){ return res.sendStatus(401); }
 
-    return res.json({user: user.toAuthJSON()});
+    if(typeof req.body.user.points !== 'undefined'){
+      user.points = req.body.user.points;
+    }
+
+    return user.save().then(function(){
+      return res.json({user: user.toNewPoitnsJSON()});
+    });
+ 
   }).catch(next);
 });
 
@@ -45,15 +53,34 @@ router.put('/user', auth.required, function(req, res, next){
   }).catch(next);
 });
 
+/* Para actualizar los puntos del user */
+
+router.put('/points', auth.required, function(req, res, next){
+
+  User.findById(req.payload.id).then(function(user){
+
+    if(!user){ return res.sendStatus(401); }
+
+    if(typeof req.body.points !== 'undefined'){
+      user.points = req.body.points;
+    }
+
+    return user.save().then(function(){
+      return res.json({user: user.toNewPoitnsJSON()});
+    });
+
+  }).catch(next);
+});
+
 // Para login, le pasamos email y password, devuelve -> email,username y token.
 
 router.post('/login', function(req, res, next){
   if(!req.body.user.email){
-    return res.status(422).json({errors: {email: "can't be blank"}});
+    return res.status(422).json({errors: {email: "Email error"}});
   }
 
   if(!req.body.user.password){
-    return res.status(422).json({errors: {password: "can't be blank"}});
+    return res.status(422).json({errors: {password: "Password error"}});
   }
 
   passport.authenticate('local', {session: false}, function(err, user, info){
