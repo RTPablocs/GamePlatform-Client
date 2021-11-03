@@ -164,7 +164,7 @@ function submit_form_register() {
         })
         .catch(function(err) {
 
-            console.log('ERROR');
+          
 
             /* Devuelve del servidor que el username ya esta en uso o ... */
 
