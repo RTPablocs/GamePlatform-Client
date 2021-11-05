@@ -1,7 +1,7 @@
 var router = require('express').Router();
 const Ranking = require('../../models/ranking');
 
-router.get('/',async(req,res)=>{
+router.get('/general',async(req,res)=>{
     try{
         const ranking = await 
         Ranking.aggregate([
@@ -17,6 +17,11 @@ router.get('/',async(req,res)=>{
         console.log(e);
     }
 });
+router.get('/',async(req,res)=>{
+    Ranking.find().then(function(data){
+        res.json(data);
+    })
+})
 router.get('/:id',async(req,res)=>{
     try{
                 const ranking = await 
@@ -34,5 +39,11 @@ router.get('/:id',async(req,res)=>{
         console.log(e)
     }
 });
-
-module.exports = router;
+router.post('/', function(req, res, next){
+    let rank;
+    rank = new Ranking(req.body);
+    rank.save().then(function(){
+        return res.json(rank);
+    });
+  });
+  module.exports = router;

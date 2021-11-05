@@ -1,6 +1,5 @@
 const  mongoose  = require("mongoose");
 const User = mongoose.model('User');
-var uniqueValidator = require("mongoose-unique-validator");
 const typeScore = mongoose.Schema({
     id:{type:String},
     nameGame:{type:String},
@@ -8,13 +7,12 @@ const typeScore = mongoose.Schema({
     score:{type:String}
 })
 const singleScore = mongoose.Schema({
-    user:{type: mongoose.Schema.Types.ObjectId , ref:'User'},
+    user:{type: String},
     game:[typeScore]
 })
 const RankingSchema = mongoose.Schema({
     singleScore:[singleScore]
 
 });
-RankingSchema.plugin(uniqueValidator, {message: 'no se cumple el esquema!'});
 
 module.exports = mongoose.model('Ranking',RankingSchema);
