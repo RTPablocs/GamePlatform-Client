@@ -1,0 +1,87 @@
+/*-----[COLOR PALETTE]-----*/
+$colors: (primary: #023047,
+    secondary: #ffb703,
+    base: #0D0d0D,
+    base-reverse: #ffffff);
+
+/*-----[FONTS FAMILY]-----*/
+$titles: 'Assistant',
+sans-serif;
+$subtitles: 'Kanit',
+sans-serif;
+$base-text: 'Source Sans Pro',
+sans-serif;
+
+/*-----[BORDER OPTIONS]-----*/
+$general-border: 1px solid #00000044;
+$box-shadow: 0px 6px 15px 2px map-get($colors, "primary");
+
+/*-----[GET A RANDOM COLOR]-----*/
+@function random-color() {
+    @return rgba(random(85) + 100, random(85) + 100, random(85) + 100, 0.48);
+}
+
+body {
+    margin: 0px;
+    font-family: $base-text;
+}
+
+/*-----[PAGE CONTAINER]-----*/
+
+div.game-list-container {
+
+    padding: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    max-height: 100vh;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+        height: 100vh;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: map-get($colors, "primary");
+    }
+
+    &::-webkit-scrollbar-track {
+        background: white;
+        border: $general-border;
+    }
+
+    /*-----[SCORE CARD]-----*/
+    div.game-card {
+        margin: 20px;
+        color: map-get($colors, "primary");
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        width: 20%;
+        height: 300px;
+        text-align: center;
+        border-radius: 20%;
+        box-shadow: $box-shadow;
+        background-color: map-get($colors, "base-reverse");
+
+        /*-----[NAME/IMG PART]-----*/
+        div.g-name {
+            font: 40px $subtitles;
+            height: 100%;
+            border-radius: 20%;
+            text-shadow: 0 0 5px white;
+            justify-self: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: $general-border;
+        }
+
+        div.g-name:hover {
+            filter: brightness(0.2);
+            cursor: pointer;
+        }
+    }
+}
