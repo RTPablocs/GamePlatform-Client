@@ -1,0 +1,54 @@
+/*-----[COLOR PALETTE]-----*/
+/*-----[FONTS FAMILY]-----*/
+/*-----[BORDER OPTIONS]-----*/
+/*-----[GET A RANDOM COLOR]-----*/
+body {
+  margin: 0px;
+  font-family: "Source Sans Pro", sans-serif; }
+
+/*-----[PAGE CONTAINER]-----*/
+div.game-list-container {
+  padding: 20px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  max-height: 100vh;
+  overflow-y: auto;
+  /*-----[SCORE CARD]-----*/ }
+  div.game-list-container::-webkit-scrollbar {
+    width: 10px;
+    height: 100vh; }
+  div.game-list-container::-webkit-scrollbar-thumb {
+    background: #023047; }
+  div.game-list-container::-webkit-scrollbar-track {
+    background: white;
+    border: 1px solid #00000044; }
+  div.game-list-container div.game-card {
+    margin: 20px;
+    color: #023047;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 20%;
+    height: 300px;
+    text-align: center;
+    border-radius: 20%;
+    box-shadow: 0px 6px 15px 2px #023047;
+    background-color: #ffffff;
+    /*-----[NAME/IMG PART]-----*/ }
+    div.game-list-container div.game-card div.g-name {
+      font: 40px "Kanit", sans-serif;
+      height: 100%;
+      border-radius: 20%;
+      text-shadow: 0 0 5px white;
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #00000044; }
+    div.game-list-container div.game-card div.g-name:hover {
+      filter: brightness(0.2);
+      cursor: pointer; }
+
+/*# sourceMappingURL=styles.css.map */
