@@ -66,9 +66,13 @@ function submit_form_register() {
          send_data_server(url_server_register,user);     /* Enviamos los datos del nuevo usuario registrado */
     
          validacion = 0;
+
+         control_user_active();
+
+     /*     window.location('#home'); */
     }
     
-    window.location('#home');
+  
     
 }
 
@@ -129,8 +133,11 @@ function submit_form_register() {
 
         validacion = 0;
 
+        control_user_active();
 
-        window.location('#home');
+     /*    window.location('#home'); */
+
+
     }
 
    
@@ -140,12 +147,34 @@ function submit_form_register() {
     }
 
 
+    function control_user_active(){
+
+            if(localStorage.getItem('token')){
+
+
+                const ini_sesion_element = document.querySelector('.ini_sesion');  
+                ini_sesion_element.parentElement.removeChild(ini_sesion_element);     /* Eliminamos la opcion iniciar sesion, ya que ya esta logueado */
+
+
+                var a = document.createElement("a");                                  /* Añadimos opcion de visitar tu prefil */
+                var perfil = document.createTextNode("Perfil");
+                a.appendChild(perfil);
+                var element = document.getElementById("nav");
+                
+                element.appendChild(a);
+                
+            }else{
+                console.log('No user active or error in login');
+            }
+
+    }
+
+
      
 /* Funcion para enviar datos JSON al server */
 
     function send_data_server(url,data_env){
-        console.log('llega fetch');
-
+     
         fetch(url,{
             method: 'POST',
             headers: {
@@ -159,8 +188,10 @@ function submit_form_register() {
         })
         .then(function(data) {
         
-            const token = data.user.token;           /* Cojemos el token del usuario nuevo registrado y lo guardamos en localstorage */
-            localStorage.setItem('token',token)
+            const token = data.user.token;           
+            localStorage.setItem('token',token)                     /* Cojemos el token del usuario nuevo registrado y lo guardamos en localstorage */
+            localStorage.setItem('username',data.user.username)     /* Guardamos username en localstorage */
+            localStorage.setItem('points',data.user.points)         /*  Guardamos points en localstorage  */
         })
         .catch(function(err) {
 
@@ -204,4 +235,7 @@ window.onload = function () {
            slides[slideIndex-1].style.display = "block";
            setTimeout(showSlides,3000);
     }
+
+
+    control_user_active();
 } 

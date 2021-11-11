@@ -1,11 +1,11 @@
-function send_points_game(user_token,points){
+function send_points_game(user_token,points){          /* Funcion que utilizaran para pasar los puntos de cada partida al server */
 
 
     var url= 'http://0.0.0.0:4000/api/user/points';   /* Url al server -> PUT points */
 
 
 
-    const data = {                                     /* Datos que le pasamos al server, puntos y token del user */
+    const data = {                                    /* Datos que le pasamos al server, puntos y token del user */
         "data":{                                             
             "user" : user_token,
             "points":points
@@ -18,11 +18,11 @@ function send_points_game(user_token,points){
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            "Authorization": user
+            Authorization: 'Token ' + user_token                     /* Authorization -> Token usuario */
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data),                    /* Pasamos data a -> JSON */
         cache: 'no-cache',
-        mode:'cors'
+        mode:'cors' 
     })
     .then(function(response) {
         return response.json();
