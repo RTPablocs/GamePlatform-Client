@@ -35,7 +35,17 @@ fetch(url_server_generalRank,{
     return response.json();
 
 }).then(function(data) {
-    console.log(data[0].singleScore[0].game[0].score);
+    console.log(data);
+    var sum = 0;
+  data.forEach(element => {
+    element.singleScore.forEach(elm=>{
+      elm.game.forEach(list=>{
+        // var sum=0;
+        sum =sum + parseInt(list.score);
+        console.log(sum);
+      })
+    })
+  });
 
   var olList = document.getElementById('list');
 
@@ -56,8 +66,8 @@ fetch(url_server_generalRank,{
       }
       
         // Create the text of elements
-      var namePlayer = document.createTextNode(data[0].singleScore[0].user);
-      var score = document.createTextNode(data[0].singleScore[0].game[0].score+' px');
+      var namePlayer = document.createTextNode(data[i].singleScore[i].user.username);
+      var score = document.createTextNode(sum+' px');
         //Append the text to the element
         p.appendChild(namePlayer);
         p.appendChild(br);
