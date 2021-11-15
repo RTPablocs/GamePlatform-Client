@@ -1,19 +1,19 @@
-const url_server_singlelRank = 'http://127.0.0.1:4000/api/rank/single'
-const url_server_gameRank = 'http://127.0.0.1:4000/api/rank/game';
+const url_server_singlelRank = 'http://127.0.0.1:4000/api/rank/single' //Assign the url for the games that users has played
+const url_server_gameRank = 'http://127.0.0.1:4000/api/rank/game';  //Assign the url to obtain the information of a single game ranking
+//Do a request to the server
 fetch(url_server_singlelRank,{
 
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'
     },
-    // body: JSON.stringify(user),
     cache: 'no-cache'
     
   }).then(function(response) {
       return response.json();
   
   }).then(function(data) {
-    console.log(data);
+    //Print the games that users had played
     for(let i = 0; i<data.length;i++){
         var select = document.getElementById('selectGame');
         var option = document.createElement('option');
@@ -22,9 +22,12 @@ fetch(url_server_singlelRank,{
         option.appendChild(nameGame);
         select.appendChild(option);
     }
+    //This is an event that will hear the selection of the game
     select.addEventListener('change',function(){
+        //In this line, we obtain the name of game
         var game = this.options[select.selectedIndex].text;
         var body = {game:game};
+        //Do a request to the server for a information of single game ranking
         fetch(url_server_gameRank,{
 
             method: 'POST',
@@ -38,10 +41,9 @@ fetch(url_server_singlelRank,{
               return response.json();
           
           }).then(function(data) {
-                console.log(data[0].singleScore.user);
                 var rank = document.getElementById('rank');
                 rank.innerHTML="";
-
+                //Print the tittle of the name of game
                 var tittle = document.getElementById('tittle');
                 tittle.innerHTML="";
 
@@ -53,7 +55,7 @@ fetch(url_server_singlelRank,{
 
                 text.appendChild(nameText);
                 tittle.appendChild(text);
-
+              // Print the rank of user depending on the position of users and her score
               for(let i = 0; i<data.length;i++){
                   if(i==0){
                      /**FIRST POSITION */

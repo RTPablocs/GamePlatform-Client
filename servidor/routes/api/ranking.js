@@ -3,12 +3,13 @@ var router = require('express').Router();
 const Ranking = require('../../models/ranking');
 var auth = require('../auth');
 
+/**Get User Score */
 router.post('/user/score',async(req,res)=>{
-    var id = req.body.id;
+    var id = req.payload.id;
     try{
         Ranking.aggregate([
             {$unwind:{path:"$singleScore.game"}},
-            {$match:{"singleScore.user":"Adrian"}},
+            {$match:{"singleScore.user":id}},
             {$group:{_id:{"singleScore":"$singleScore.user"},
             totalScore:{$sum:"$singleScore.game.score"}}}
         ]).then(function(data){
@@ -18,27 +19,13 @@ router.post('/user/score',async(req,res)=>{
         console.log(e);
     }
 });
-router.get('/general',async(req,res)=>{
-    try{
-        const ranking = await 
-        Ranking.aggregate([
-            {$unwind:"$singleScore"},
-            {$unwind:"$game"},
-            {totalScore:{$sum:"$score"}}
-        ]);
-        if(!ranking){
-            res.status(409).send('Error');
-        }
-        res.json(ranking);
-    }catch(e){
-        console.log(e);
-    }
-});
+/**Get all information of ranking */
 router.get('/',async(req,res)=>{
     Ranking.find().then(function(data){
         res.json(data);
     })
 });
+/** Get the information of a single ranking */
 router.post('/game',async(req,res)=>{
     var name = req.body.game;
     try{
@@ -52,6 +39,7 @@ router.post('/game',async(req,res)=>{
         console.log(e);
     }
 })
+/**Get the games that users has play */
 router.get('/single',async(req,res)=>{
     try{
         Ranking.aggregate([{
@@ -65,6 +53,7 @@ router.get('/single',async(req,res)=>{
         res.status(409).send('Error');
     }
 });
+/**Create a new Score */
 router.post('/', function(req, res, next){
     let rank;
     rank = new Ranking(req.body);
@@ -72,6 +61,7 @@ router.post('/', function(req, res, next){
         return res.json(rank);
     });
 });
+/**Update the score of users */
 router.post('/update',function(req,res){
     var id = req.payload.id;
     var idObject =  mongoose.Types.ObjectId(id);
@@ -89,13 +79,6 @@ router.post('/update',function(req,res){
             ]
         }
     }
-    Ranking.find({"games":{$in:[req.body.nameGame]}}).then(function(data){
-        if(data.length == 0){
-            Ranking.updateMany({$push:{'games':req.body.nameGame}}).then(function(data){
-                res.json(data);
-            });
-        }
-    });
     try{
         Ranking.aggregate()
         .unwind({path:"$singleScore"})
