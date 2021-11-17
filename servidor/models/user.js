@@ -15,6 +15,7 @@ const UserSchema =  mongoose.Schema({
     email:{
         type:String,
         required:true,
+        unique:true,
         match: [/\S+@\S+\.\S+/, 'is invalid']
     },
     hash:String,
@@ -78,7 +79,7 @@ UserSchema.methods.toProfileJSON = function(){
     username: this.username,
     email: this.email,
     token: this.generateJWT(),
-    points : this.points,
+    points : this.points, 
     image: this.image
   };
 };
